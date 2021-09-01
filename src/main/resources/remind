@@ -1,0 +1,9 @@
+config —— 存放配置文件
+constant —— 配置信息类
+consist —— 常亮接口类
+controller —— 前端控制器
+domain —— 实体类
+repository —— 数据访问层(dao)
+service —— 数据服务层，数据服务层的实现接口放在service下的impl下
+util —— 工具类
+vo —— 数据传输类

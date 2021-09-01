@@ -1,0 +1,43 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /al
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    url: jdbc:mysql://localhost:3306/assa?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&serverTimezone=Asia/Shanghai
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+#Redis配置
+  redis:
+    # Redis默认情况下有16个分片，这里配置具体使用的分片。默认是索引为0的分片
+    database: 1
+    # Redis服务器地址
+    host: 42.194.219.178
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: Xiahuicheng123
+    # 连接超时时间（毫秒）
+    timeout: 2000s
+
+
+#控制台打印sql
+mybatis-plus:
+  configuration:
+   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

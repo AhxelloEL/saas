@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.al.saas.repository.GradeDao">
+
+    <update id="updateGradeById" parameterType="com.al.saas.domain.Grade">
+        UPDATE tb_grade
+        <set>
+            <if test="gradeName!=null">grade_name=#{gradeName},</if>
+            <if test="createTime != null">create_time=#{createTime}</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
+        </set>
+        WHERE grade_id=#{gradeId}
+    </update>
+
+    <delete id="deleteGradeById">
+        DELETE FROM tb_grade
+        WHERE grade_id=#{gradeId}
+    </delete>
+</mapper>
