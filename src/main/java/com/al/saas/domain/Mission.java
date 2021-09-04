@@ -1,5 +1,8 @@
 package com.al.saas.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.relational.core.sql.In;
 
 import java.util.Date;
@@ -11,6 +14,9 @@ import java.util.Date;
  * @Description 任务调度实体类
  * @date2021/8/31 9:59
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Mission {
     /**
      * ID
@@ -35,7 +41,7 @@ public class Mission {
     /**
      * 发布时间
      */
-    private Date createTiem;
+    private Date createTime;
     /**
      * 状态
      */

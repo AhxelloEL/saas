@@ -1,6 +1,12 @@
 package com.al.saas.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -12,33 +18,43 @@ import java.util.Date;
  * @date2021/8/31 9:33
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName(value = "tb_student")
 public class Student {
     /**
      * 学生ID
      */
+    @TableId(value = "student_id",type = IdType.AUTO)
     private Long studentId;
     /**
      * 姓名
      */
+    @TableField(value = "student_name")
     private String studentName;
     /**
      * 账号
      */
+    @TableField(value = "account")
     private String account;
     /**
      * 学号
      */
+    @TableField(value = "stu_id")
     private String stuId;
     /**
-     * 关联年级表，学生所属的年级
+     * 关联班级表，学生所属的班级
      */
-    private Grade grade;
+    @TableField(value = "classes_id")
+    private Classes classes;
     /**
      * 性别
      */
+    @TableField(value = "sex")
     private char sex;
     /**
      * 完成时间
      */
+    @TableField(value = "last_edit_time")
     private Date lastEditTime;
 }

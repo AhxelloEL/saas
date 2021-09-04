@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.al.saas.repository.StudentDao">
+    <resultMap id="studentMap" type="com.al.saas.domain.Student">
+        <id column="student_id" property="studentId"/>
+        <result column="student_name" property="studentName"/>
+        <result column="account" property="account"/>
+        <result column="sex" property="sex"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <association property="classes" column="classes_id" javaType="com.al.saas.domain.Classes">
+            <id column="classes_id" property="classesId"/>
+            <result column="classes_name" property="classesName"/>
+        </association>
+    </resultMap>
+
+
+    <select id="queryStudentList" resultMap="studentMap">
+        SELECT
+        s.stu_id,
+        s.student_name,
+        s.account,
+        s.sex,
+        s.last_edit_time,
+        cs.classes_id,
+        cs.classes_name
+        FROM
+        tb_student s,
+        tb_classes cs
+        <where>
+            <if test="studentCondition.stuId != null">
+                AND s.stu_id = #{studentCondition.stuId}
+            </if>
+            <if test="studentCondition.studentName != null">
+                AND s.student_name like '%${studentCondition.studentName}%'
+            </if>
+            <if test="studentCondition.classes != null
+            and studentCondition.classes.classesId != null">
+                AND s.classes_id = #{studentCondition.classes.classesId}
+            </if>
+            <if test="studentCondition.classes != null
+            and studentCondition.classes.classesName != null">
+                AND cs.classes_name like '%${studentCondition.classes.classesName}%'
+            </if>
+            AND
+            s.classes_id = cs.classes_id
+        </where>
+        ORDER BY
+        s.last_edit_time DESC
+        LIMIT #{pageIndex},#{pageSize};
+    </select>
+    
+    <select id="queryStudentCount" resultType="int">
+        SELECT COUNT(1)
+        FROM
+        tb_student s,
+        tb_classes cs
+        <where>
+            <if test="studentCondition.stuId != null">
+                AND s.stu_id = #{studentCondition.stuId}
+            </if>
+            <if test="studentCondition.studentName != null">
+                AND s.student_name like '%${studentCondition.studentName}%'
+            </if>
+            <if test="studentCondition.classes != null
+            and studentCondition.classes.classesId != null">
+                AND s.classes_id = #{studentCondition.classes.classesId}
+            </if>
+            <if test="studentCondition.classes != null
+            and studentCondition.classes.classesName != null">
+                AND cs.classes_name like '%${studentCondition.classes.classesName}%'
+            </if>
+            AND
+            s.classes_id = cs.classes_id
+        </where>
+    </select>
+
+    <select id="queryStudentById" resultMap="studentMap" parameterType="long">
+        SELECT
+        s.student_id,s.student_name,s.account,s.sex,s.last_edit_time,
+        cs.classes_id,cs.classes_name
+        FROM
+        tb_student s,
+        tb_classes cs
+        WHERE
+        s.classes_id = cs.classes_id
+        AND
+        s.student_id = #{studentId}
+    </select>
+
+    <insert id="addStudent" useGeneratedKeys="true" keyColumn="student_id"
+            keyProperty="studentId">
+        INSERT INTO tb_student(student_name, account, stu_id, classes_id, sex, last_edit_time) VALUES
+        (#{studentName},#{account},#{stuId},#{classes.classesId},#{sex},#{lastEditTime})
+    </insert>
+</mapper>

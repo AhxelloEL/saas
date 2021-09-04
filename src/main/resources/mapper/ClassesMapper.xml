@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.al.saas.repository.ClassesDao">
+    <resultMap id="classesMap" type="com.al.saas.domain.Classes">
+        <id column="classes_id" property="classesId" />
+        <result column="classes_name" property="classesName"/>
+        <association property="grade" javaType="com.al.saas.domain.Grade" column="grade_id">
+            <id column="grade_id" property="gradeId"/>
+            <result column="grade_name" property="gradeName"/>
+        </association>
+    </resultMap>
+
+    <select id="queryClassesById" resultMap="classesMap" parameterType="long">
+        SELECT
+        cs.classes_id,
+        cs.classes_name,
+        g.grade_id,
+        g.grade_name
+        FROM
+        tb_classes cs,
+        tb_grade g
+        WHERE
+        cs.grade_id = g.grade_id
+        and
+        cs.classes_id = #{classesId}
+    </select>
+
+    <select id="queryClassesList" resultMap="classesMap">
+        SELECT
+        cs.classes_id,
+        cs.classes_name,
+        g.grade_id,
+        g.grade_name
+        FROM
+        tb_classes cs,
+        tb_grade g
+        <where>
+            <if test="classesCondition.grade !=null
+            and classesCondition.grade.gradeId !=null ">
+                and cs.grade_id = #{classesCondition.grade.gradeId}
+            </if>
+            <if test="classesCondition.classesName != null">
+                and cs.classes_name like '%${classesCondition.classesName}%'
+            </if>
+            <if test="classesCondition.grade != null
+            and classesCondition.grade.gradeName != null">
+                and g.grade_name like '%${classesCondition.grade.gradeName}%'
+            </if>
+            AND
+            cs.grade_id = g.grade_id
+        </where>
+    </select>
+</mapper>

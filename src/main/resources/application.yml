@@ -34,10 +34,15 @@ spring:
     password: Xiahuicheng123
     # 连接超时时间（毫秒）
     timeout: 2000s
+  security:
+    user:
+      name: admin
+      password: 123
 
 
 #控制台打印sql
 mybatis-plus:
   configuration:
    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 

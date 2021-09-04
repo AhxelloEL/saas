@@ -7,7 +7,7 @@
         UPDATE tb_grade
         <set>
             <if test="gradeName!=null">grade_name=#{gradeName},</if>
-            <if test="createTime != null">create_time=#{createTime}</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
             <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
         </set>
         WHERE grade_id=#{gradeId}

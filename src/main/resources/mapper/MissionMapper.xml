@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.al.saas.repository.MissionDao">
+    <resultMap id="missionMap" type="com.al.saas.domain.Mission">
+        <id column="mission_id" property="missionId"/>
+        <result column="mission_name" property="missionName"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="enable_status" property="enableStatus"/>
+        <association property="grade" column="grade_id"
+                     javaType="com.al.saas.domain.Grade">
+            <id column="grade_id" property="gradeId"/>
+            <result column="grade_name" property="gradeName"/>
+        </association>
+    </resultMap>
+
+    <select id="queryMissionList" resultMap="missionMap">
+        SELECT
+        m.mission_id,mission_name,m.begin_time,m.last_edit_time,
+        m.create_time,m.enable_status,g.grade_id,g.grade_name
+        FROM
+        tb_mission m,
+        tb_grade g
+        WHERE
+        m.grade_id = g.grade_id
+    </select>
+
+    <insert id="addMission" useGeneratedKeys="true" keyColumn="mission_id"
+            keyProperty="missionId">
+        INSERT INTO tb_mission(mission_name, grade_id, begin_time, last_edit_time, create_time, enable_status) VALUES
+        (#{missionName},#{grade.gradeId},#{beginTime},#{lastEditTime},#{createTime},#{enableStatus})
+    </insert>
+
+    <update id="redactMission" parameterType="com.al.saas.domain.Mission">
+        UPDATE tb_mission
+        <set>
+            <if test="missionName!=null">mission_name=#{missionName},</if>
+            <if test="beginTime != null">begin_time=#{beginTime},</if>
+            <if test="grade != null">grade_id=#{grade.gradeId},</if>
+        </set>
+        WHERE mission_id = #{missionId}
+    </update>
+       
+    <update id="abortMission" parameterType="com.al.saas.domain.Mission">
+        UPDATE tb_mission
+        SET
+        enable_status=#{enableStatus}
+        WHERE mission_id = #{missionId}
+    </update>
+
+
+</mapper>
