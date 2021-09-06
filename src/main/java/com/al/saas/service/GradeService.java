@@ -1,5 +1,6 @@
 package com.al.saas.service;
 
+import com.al.saas.consist.GradeExecution;
 import com.al.saas.domain.Grade;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -18,7 +19,7 @@ public interface GradeService{
      * 查询所有年级
      * @return
      */
-    List<Grade> getGradeList();
+    GradeExecution getGradeList();
 
     /**
      * 根据年级Id查询详情信息
@@ -32,19 +33,19 @@ public interface GradeService{
      * @param grade
      * @return
      */
-    int modifyGrade(Grade grade);
+    GradeExecution modifyGrade(Grade grade);
 
     /**
      * 删除年级
-     * @param grade
+     * @param gradeId
      * @return
      */
-    int deleteGrade(Grade grade);
+    GradeExecution deleteGrade(long gradeId);
 
     /**
      * 新增年级
      * @param grade
      * @return
      */
-    int addGrade(Grade grade);
+    GradeExecution addGrade(Grade grade);
 }
