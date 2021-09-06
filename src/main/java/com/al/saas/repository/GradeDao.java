@@ -25,8 +25,8 @@ public interface GradeDao extends BaseMapper<Grade> {
 
     /**
      * 删除该年级（测试使用）
-     * @param grade 年级信息
+     * @param gradeId 年级Id
      * @return 0：删除失败 1：删除成功
      */
-    int deleteGradeById(Grade grade);
+    int deleteGradeById(long gradeId);
 }
