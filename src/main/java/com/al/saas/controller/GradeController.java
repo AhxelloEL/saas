@@ -1,5 +1,7 @@
 package com.al.saas.controller;
 
+import com.al.saas.consist.GradeExecution;
+import com.al.saas.constant.GradeStatusEnum;
 import com.al.saas.domain.Grade;
 import com.al.saas.service.GradeService;
 import com.al.saas.util.HttpServletRequestUtil;
@@ -36,10 +38,11 @@ public class GradeController {
     private Map<String,Object> getGradeLists(){
         Map<String,Object> modelMap = new HashMap<String, Object>();
         try {
-            List<Grade> gradeList = gradeService.getGradeList();
-            if (gradeList != null){
+            GradeExecution ge = new GradeExecution();
+            ge = gradeService.getGradeList();
+            if (ge.getGradeList() != null){
                 modelMap.put("success",true);
-                modelMap.put("gradeList",gradeList);
+                modelMap.put("gradeList",ge.getGradeList());
             }else {
                 modelMap.put("success",false);
                 modelMap.put("errMsg","查询失败！");
@@ -51,9 +54,10 @@ public class GradeController {
         return modelMap;
     }
 
-    @GetMapping(value = "getgradebyid")
+    @GetMapping(value = "/getgradebyid")
     private Map<String,Object> getGradeById(HttpServletRequest request){
         Map<String,Object> modelMap = new HashMap<>();
+        GradeExecution gradeExecution = new GradeExecution();
         Long gradeId = HttpServletRequestUtil.getLong(request,"gradeId");
         if (gradeId > -1){
             try {
@@ -72,10 +76,37 @@ public class GradeController {
     }
 
 
-    @PostMapping(value = "addgrade")
-    private String addGrade(HttpServletRequest request){
+    @PostMapping(value = "/addgrade")
+    private Map<String,Object> addGrade(HttpServletRequest request){
         //TODO
-        return "添加成功";
+        Map<String,Object> modelMap = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        Grade grade = null;
+        try {
+            //获取前端表单信息
+            String gradeStr = HttpServletRequestUtil.getString(request,"gradeStr");
+            grade = mapper.readValue(gradeStr,Grade.class);
+            //判断传入的信息是否为空
+            if (grade != null){
+                //添加操作
+                GradeExecution ge = gradeService.addGrade(grade);
+                //判断是否添加成功
+                if (ge.getState() == GradeStatusEnum.SUCCESS.getState()){
+                    modelMap.put("success",true);
+                }else {
+                    modelMap.put("success",false);
+                    modelMap.put("errMsg", ge.getStateInfo());
+                }
+            }else {
+                modelMap.put("success",false);
+                modelMap.put("errMsg","请输入年级信息");
+            }
+        }catch (Exception e){
+            modelMap.put("success",false);
+            modelMap.put("errMsg",e.toString());
+            return modelMap;
+        }
+        return modelMap;
     }
 
 }
