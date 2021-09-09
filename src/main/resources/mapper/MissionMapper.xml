@@ -38,7 +38,7 @@
         <set>
             <if test="missionName!=null">mission_name=#{missionName},</if>
             <if test="beginTime != null">begin_time=#{beginTime},</if>
-            <if test="grade != null">grade_id=#{grade.gradeId},</if>
+            <if test="grade != null">grade_id=#{grade.gradeId}</if>
         </set>
         WHERE mission_id = #{missionId}
     </update>
@@ -50,5 +50,17 @@
         WHERE mission_id = #{missionId}
     </update>
 
+    <select id="queryMissionById" resultType="com.al.saas.domain.Mission">
+        SELECT
+        m.mission_id,mission_name,m.begin_time,m.last_edit_time,
+        m.create_time,m.enable_status,g.grade_id,g.grade_name
+        FROM
+        tb_mission m,
+        tb_grade g
+        WHERE
+        m.grade_id = g.grade_id
+        AND
+        m.mission_id = #{missionId}
+    </select>
 
 </mapper>
