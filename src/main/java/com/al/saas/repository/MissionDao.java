@@ -41,4 +41,11 @@ public interface MissionDao extends BaseMapper<Mission> {
      */
     int abortMission(Mission mission);
 
+    /**
+     * 通过任务ID查询
+     * @param missionId
+     * @return
+     */
+    Mission queryMissionById(Long missionId);
+
 }
