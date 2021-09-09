@@ -39,4 +39,11 @@ public interface MissionService {
      * @return 0：终止成功 1：终止失败
      */
     MissionExecution abortMission(Mission mission);
+
+    /**
+     * 根据Id查询
+     * @param missionId
+     * @return
+     */
+    //MissionExecution getMissionById(Long missionId);
 }
