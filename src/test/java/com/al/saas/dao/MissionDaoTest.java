@@ -69,4 +69,10 @@ public class MissionDaoTest {
         int effectNum = missionDao.abortMission(mission);
         assertEquals(1,effectNum);
     }
+
+    @Test
+    public void testQueryMissionById(){
+        Mission mission = missionDao.queryMissionById(2l);
+        System.out.println(mission.toString());
+    }
 }
