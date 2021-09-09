@@ -52,7 +52,7 @@ public class GradeDaoTest {
     @Test
     public void testGradeInsert(){
         Grade grade = new Grade();
-        grade.setGradeName("2021级高三");
+        grade.setGradeName("2021级高一");
         grade.setCreateTime(new Date());
         grade.setLastEditTime(new Date());
        int effectNum =  gradeDao.insert(grade);
@@ -61,15 +61,13 @@ public class GradeDaoTest {
     @Test
     public void testGradeUpdate(){
         Grade grade = new Grade();
-        grade.setGradeId(2l);
+        grade.setGradeId(5l);
         grade.setCreateTime(new Date());
         int effectNum = gradeDao.updateGradeById(grade);
     }
     @Test
     public void testGradeDel(){
-        Grade grade = new Grade();
-        grade.setGradeId(3l);
-        int effectNum = gradeDao.deleteGradeById(grade);
+        int effectNum = gradeDao.deleteGradeById(5l);
         System.out.println(effectNum);
     }
 
