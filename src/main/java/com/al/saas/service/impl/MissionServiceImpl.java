@@ -38,7 +38,7 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public MissionExecution addMission(Mission mission) {
-        if (mission != null && mission.getMissionId() != null){
+        if (mission != null){
            try {
                mission.setCreateTime(new Date());
                int effectNum = missionDao.addMission(mission);
@@ -56,7 +56,7 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public MissionExecution modifyMission(Mission mission) {
-        if (mission != null && mission.getMissionId() != null){
+        if (mission == null && mission.getMissionId() == null){
             return new MissionExecution(MissionStatusEnum.EMPTY);
         }
         try {
@@ -66,7 +66,7 @@ public class MissionServiceImpl implements MissionService {
                 return new MissionExecution(MissionStatusEnum.INNER_ERROR);
             }else {
                 //TODO
-                mission = missionDao.selectById(mission.getMissionId());
+                mission = missionDao.queryMissionById(mission.getMissionId());
                 return new MissionExecution(MissionStatusEnum.SUCCESS,mission);
             }
         }catch (Exception e){
@@ -76,7 +76,7 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public MissionExecution abortMission(Mission mission) {
-        if (mission != null && mission.getMissionId() != null){
+        if (mission == null && mission.getMissionId() == null){
             return new MissionExecution(MissionStatusEnum.EMPTY);
         }
         try {
@@ -85,7 +85,7 @@ public class MissionServiceImpl implements MissionService {
                 return new MissionExecution(MissionStatusEnum.INNER_ERROR);
             }else {
                 //TODO
-                mission = missionDao.selectById(mission.getMissionId());
+                mission = missionDao.queryMissionById(mission.getMissionId());
                 return new MissionExecution(MissionStatusEnum.SUCCESS,mission);
             }
         }catch (Exception e){
